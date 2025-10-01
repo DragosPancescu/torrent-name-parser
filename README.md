@@ -40,10 +40,10 @@ pip install torrent-name-parser
 ## Usage
 
 ```python
-import torrent_name_parser as PTN  # recommended import style
+import torrent_name_parser as TNP  # recommended import style
 
 # Movie example
-movie_info = PTN.parse("San Andreas 2015 720p WEB-DL x264 AAC-JYK")
+movie_info = TNP.parse("San Andreas 2015 720p WEB-DL x264 AAC-JYK")
 print(movie_info)
 # Output:
 # {
@@ -57,7 +57,7 @@ print(movie_info)
 # }
 
 # TV episode example
-tv_info = PTN.parse("Mr Robot S01E05 HDTV x264-KILLERS[ettv]")
+tv_info = TNP.parse("Mr Robot S01E05 HDTV x264-KILLERS[ettv]")
 print(tv_info)
 # Output:
 # {
@@ -79,27 +79,10 @@ print(tv_info)
 
 ## Parts Extracted
 
-* `audio`
-* `codec`
-* `container`
-* `episode`
-* `episodeName`
-* `excess`
-* `extended`
-* `garbage`
-* `group`
-* `hardcoded`
-* `language`
-* `proper`
-* `quality`
-* `region`
-* `repack`
-* `resolution`
-* `season`
-* `title`
-* `website`
-* `widescreen`
-* `year`
+`audio`, `codec`, `container`, `episode`, `episodeName`, `excess`, `extended`, `garbage`,  
+`group`, `hardcoded`, `language`, `proper`, `quality`, `region`, `repack`,  
+`resolution`, `season`, `title`, `website`, `widescreen`, `year`
+
 
 ---
 
