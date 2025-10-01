@@ -11,7 +11,39 @@ license = { file = "LICENSE" }
 authors = [{ name = "Dragos Pancescu", email = "dragos.pnc@gmail.com" }]
 requires-python = ">=3.9, <3.13"
 dependencies = []
-keywords = ["torrent", "parser", "regex", "media", "tv", "movies"]
+keywords = [
+  "parse",
+  "parser",
+  "torrent",
+  "torrents",
+  "name",
+  "names",
+  "proper",
+  "rename",
+  "movie",
+  "movies",
+  "tv",
+  "show",
+  "shows",
+  "series",
+  "extract",
+  "find",
+  "quality",
+  "group",
+  "codec",
+  "audio",
+  "resolution",
+  "title",
+  "season",
+  "episode",
+  "year",
+  "information",
+  "filename",
+  "filenames",
+  "file",
+  "files",
+  "meaningful",
+]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
@@ -22,8 +54,14 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
-  "Topic :: Software Development :: Libraries :: Python Modules"
+  "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+
+[project.urls]
+Homepage = "https://github.com/DragosPancescu/torrent-name-parser"
+Source = "https://github.com/DragosPancescu/torrent-name-parser"
+Documentation = "https://github.com/DragosPancescu/torrent-name-parser#readme"
+Issues = "https://github.com/DragosPancescu/torrent-name-parser/issues"
 
 [project.optional-dependencies]
 dev = ["pytest", "black", "ruff"]
