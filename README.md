@@ -1,4 +1,4 @@
-# torrent-name-parser (fork of parse-torrent-name)
+# torrent-name-parser
 
 > Extract media information from torrent-like filenames (modern Python fork)
 
