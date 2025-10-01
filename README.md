@@ -79,10 +79,7 @@ print(tv_info)
 
 ## Parts Extracted
 
-`audio`, `codec`, `container`, `episode`, `episodeName`, `excess`, `extended`, `garbage`,  
-`group`, `hardcoded`, `language`, `proper`, `quality`, `region`, `repack`,  
-`resolution`, `season`, `title`, `website`, `widescreen`, `year`
-
+`audio`, `codec`, `container`, `episode`, `episodeName`, `excess`, `extended`, `garbage`, `group`, `hardcoded`, `language`, `proper`, `quality`, `region`, `repack`, `resolution`, `season`, `title`, `website`, `widescreen`, `year`
 
 ---
 
