@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-patterns = [
+PATTERNS = [
     ('season', '(s?([0-9]{1,2}))[ex]'),
     ('episode', '([ex]([0-9]{2})(?:[^0-9]|$))'),
     ('year', '([\[\(]?((?:19[0-9]|20[01])[0-9])[\]\)]?)'),
@@ -29,7 +26,7 @@ patterns = [
     ('3d', '3D')
 ]
 
-types = {
+TYPES = {
     'season': 'integer',
     'episode': 'integer',
     'year': 'integer',

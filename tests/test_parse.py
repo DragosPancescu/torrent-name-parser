@@ -1,12 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import json
 import os
 import unittest
 
-import PTN
-
+import torrent_name_parser
 
 class ParseTest(unittest.TestCase):
     def test_parser(self):
@@ -22,7 +18,7 @@ class ParseTest(unittest.TestCase):
 
         for torrent, expected_result in zip(torrents, expected_results):
             print("Test: " + torrent)
-            result = PTN.parse(torrent)
+            result = torrent_name_parser.parse(torrent)
             for key in expected_result:
                 if not expected_result[key]:
                     self.assertNotIn(key, result)

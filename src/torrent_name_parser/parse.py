@@ -1,11 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import re
-from .patterns import patterns, types
+from .patterns import PATTERNS, TYPES
 
 
-class PTN(object):
+class TNP(object):
     def _escape_regex(self, string):
         return re.sub('[\-\[\]{}()*+?.,\\\^$|#\s]', '\\$&', string)
 
@@ -54,7 +51,7 @@ class PTN(object):
         self.end = None
         self.title_raw = None
 
-        for key, pattern in patterns:
+        for key, pattern in PATTERNS:
             if key not in ('season', 'episode', 'website'):
                 pattern = r'\b%s\b' % pattern
 
@@ -73,15 +70,15 @@ class PTN(object):
                 index['raw'] = 0
                 index['clean'] = 0
 
-            if key in types.keys() and types[key] == 'boolean':
+            if key in TYPES.keys() and TYPES[key] == 'boolean':
                 clean = True
             else:
                 clean = match[index['clean']]
-                if key in types.keys() and types[key] == 'integer':
+                if key in TYPES.keys() and TYPES[key] == 'integer':
                     clean = int(clean)
             if key == 'group':
-                if re.search(patterns[5][1], clean, re.I) \
-                        or re.search(patterns[4][1], clean):
+                if re.search(PATTERNS[5][1], clean, re.I) \
+                        or re.search(PATTERNS[4][1], clean):
                     continue  # Codec and quality.
                 if re.match('[^ ]+ [^ ]+ .+', clean):
                     key = 'episodeName'
