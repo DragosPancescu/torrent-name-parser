@@ -463,12 +463,12 @@
   {
     "title": "The Jungle Book",
     "sbs": "SBS",
-    "3d": true
+    "three_d": true
   },
   {
     "title": "Ant-Man",
     "sbs": "Half-SBS",
-    "3d": true
+    "three_d": true
   },
   {
     "title": "Ice Age Collision Course",
