@@ -1,29 +1,28 @@
-from dataclasses import dataclass, fields
+from dataclasses import dataclass, field, fields, MISSING
 
 
 @dataclass
-class TorrentName:
+class TorrentMetadata:
     """Class for encapsulating torrent name info"""
 
-    season: int = 0
-    episode: int = 0
-    year: int = 0
+    season: int = None
+    episode: int = None
+    year: int = None
 
-    resolution: str = ""
-    quality: str = ""
-    codec: str = ""
-    audio: str = ""
-    container: str = ""
+    resolution: str = None
+    quality: str = None
+    codec: str = None
+    audio: str = None
+    container: str = None
 
-    title: str = ""
-    region: str = ""
-    excess: str = ""
-    website: str = ""
-    language: str = ""
-    sbs: str = ""
+    title: str = None
+    region: str = None
+    website: str = None
+    language: str = None
+    sbs: str = None
 
-    size: str = ""
-    group: str = ""
+    size: str = None
+    group: str = None
 
     extended: bool = False
     hardcoded: bool = False
@@ -32,15 +31,19 @@ class TorrentName:
     widescreen: bool = False
     three_d: bool = False
     unrated: bool = False
+    
+    excess: list = field(default_factory=list)
 
     @classmethod
     def from_dict(cls, data: dict):
         obj_args = {}
         for f in fields(cls):
             name = f.name
-            if name in data:
-                obj_args[name] = data[name]
-            else:
-                obj_args[name] = getattr(cls, name)
-
+            if name in data: 
+                obj_args[name] = data[name] 
+            elif f.default is not MISSING: 
+                obj_args[name] = f.default 
+            elif f.default_factory is not MISSING: 
+                obj_args[name] = f.default_factory() 
+            else: obj_args[name] = None # fallback for safety
         return cls(**obj_args)

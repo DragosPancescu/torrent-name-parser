@@ -9,7 +9,7 @@ description = "Extract media information from torrent-like filenames"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "Dragos Pancescu", email = "dragos.pnc@gmail.com" }]
-requires-python = ">=3.9, <3.13"
+requires-python = ">=3.9, <=3.13"
 dependencies = []
 keywords = [
   "parse",
@@ -64,10 +64,18 @@ Documentation = "https://github.com/DragosPancescu/torrent-name-parser#readme"
 Issues = "https://github.com/DragosPancescu/torrent-name-parser/issues"
 
 [project.optional-dependencies]
-dev = ["pytest", "black", "ruff"]
+dev = ["pytest", "black", "ruff", "tox"]
 
 [tool.black]
 line-length = 88
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.tox]
+envlist = ["py39", "py310", "py311", "py312", "py313"]
+
+[tool.tox.env_run_base]
+description = "Run tests under {base_python}"
+deps = ["pytest"]
+commands = [["pytest"]]

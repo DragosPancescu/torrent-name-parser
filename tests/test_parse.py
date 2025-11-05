@@ -19,12 +19,10 @@ class ParseTest(unittest.TestCase):
 
         for torrent, expected_result in zip(torrents, expected_results):
             print("Test: " + torrent)
-            result = asdict(torrent_name_parser.parse(torrent, dict_output=False))
+            result = asdict(torrent_name_parser.parse(torrent))
             for key in expected_result:
                 self.assertIn(key, result)
                 result1 = result[key]
-                if key == 'excess' and type(result1) == list:
-                    result1 = ', '.join(result1)
                 self.assertEqual(result1, expected_result[key])
 
  

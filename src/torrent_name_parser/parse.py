@@ -1,6 +1,6 @@
 import re
 from .patterns import PATTERNS, TYPES
-from .models import TorrentName
+from .models import TorrentMetadata
 
 
 class TNP:
@@ -12,22 +12,22 @@ class TNP:
         self.end = None
         self.title_raw = None
         self.parts = {
-            "season": 0,
-            "episode": 0,
-            "year": 0,
-            "resolution": "",
-            "quality": "",
-            "codec": "",
-            "audio": "",
-            "container": "",
-            "title": "",
-            "region": "",
-            "excess": "",
-            "website": "",
-            "language": "",
-            "sbs": "",
-            "size": "",
-            "group": "",
+            "season": None,
+            "episode": None,
+            "year": None,
+            "resolution": None,
+            "quality": None,
+            "codec": None,
+            "audio": None,
+            "container": None,
+            "title": None,
+            "region": None,
+            "excess": None,
+            "website": None,
+            "language": None,
+            "sbs": None,
+            "size": None,
+            "group": None,
             "extended": False,
             "hardcoded": False,
             "proper": False,
@@ -39,6 +39,12 @@ class TNP:
     
     def _escape_regex(self, string):
         return re.sub("[\-\[\]{}()*+?.,\\\^$|#\s]", "\\$&", string)
+    
+    def _ignore_none_values(self):
+        keys = list(self.parts.keys())
+        for key in keys:
+            if self.parts[key] is None or self.parts[key] is False:
+                self.parts.pop(key)
 
     def _part(self, name, match, raw, clean):
         # The main core instructuions
@@ -67,8 +73,7 @@ class TNP:
             clean = re.sub("_+$", "", clean)
             self._part(name, [], None, clean.strip())
 
-    def parse(self, name, dict_output=False):
-        self.parts = {}
+    def parse(self, name, as_dict=False, ignore_none=False):
         self.torrent = {"name": name}
         self.excess_raw = name
         self.group_raw = ""
@@ -155,6 +160,11 @@ class TNP:
                 clean = clean[0]
             self._part("excess", [], self.excess_raw, clean)
 
-        if dict_output:
-            return self.parts
-        return TorrentName.from_dict(self.parts)
+        if not as_dict:
+            return TorrentMetadata.from_dict(self.parts)
+        
+        if ignore_none:
+            self._ignore_none_values()
+
+        return self.parts
+        
