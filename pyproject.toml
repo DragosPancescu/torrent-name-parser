@@ -9,7 +9,7 @@ description = "Extract media information from torrent-like filenames"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "Dragos Pancescu", email = "dragos.pnc@gmail.com" }]
-requires-python = ">=3.9, <=3.13"
+requires-python = ">=3.9, <3.14"
 dependencies = []
 keywords = [
   "parse",
