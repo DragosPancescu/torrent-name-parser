@@ -1,4 +1,4 @@
-name: CI
+name: Test Versions
 
 on:
   push:
@@ -31,4 +31,4 @@ jobs:
 
       # Run tests
       - name: Run tests
-        run: pytest --maxfail=1 --disable-warnings -v
+        run: pytest --disable-warnings -v

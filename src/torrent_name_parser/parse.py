@@ -16,30 +16,28 @@ class TorrentNameParser:
         self.title_end = None
         self.title_raw = None
         self.parts = None
-    
+
     def _escape_regex(self, string):
         return re.sub(r"[\-\[\]{}()*+?.,\\\^$|#\s]", "\\$&", string)
-    
+
     def _reset_state(self):
-        """Reset runtime state to prepare for a new parse.
-        """
+        """Reset runtime state to prepare for a new parse."""
         self.group_raw = ""
         self.title_start = 0
         self.title_end = None
         self.title_raw = None
         self.parts = asdict(TorrentMetadata())
-    
+
     def _ignore_none_values(self):
-        """Removes empty values from the parse output
-        """
+        """Removes empty values from the parse output"""
         keys = list(self.parts.keys())
         for key in keys:
             if self.parts[key] is None or self.parts[key] is False:
                 self.parts.pop(key)
-    
+
     def _cast_type(self, pattern_key: str, extract: str) -> bool | int | str:
         """Given the pattern key it casts the input to the mapped value in the TYPES dict
-    
+
         Args:
             key (str): Key to search in the TYPES dict
             extract (str): Extracted text to be cast
@@ -48,20 +46,20 @@ class TorrentNameParser:
             bool | int | str: Casted input to the mapped type
         """
         match_type = TYPES.get(pattern_key, "default")
-        
+
         if match_type == "boolean":
             return True
         if match_type == "integer":
             return int(extract)
         return extract
-    
+
     def _update_title_bounds(self, match):
         index = self.torrent["name"].find(match[0])
         if index == 0:
             self.title_start = len(match[0])
         elif self.title_end is None or index < self.title_end:
             self.title_end = index
-        
+
     def _part(self, name, match, raw):
         if len(match) != 0:
             self._update_title_bounds(match)
@@ -72,7 +70,7 @@ class TorrentNameParser:
                 self.group_raw = raw
             if raw is not None:
                 self.excess_raw = self.excess_raw.replace(raw, "")
-                
+
     def _extract_title(self):
         raw_title = self.torrent["name"]
         if self.title_end is not None:
@@ -83,7 +81,7 @@ class TorrentNameParser:
             clean_title = re.sub(r"\.", " ", clean_title)
         clean_title = re.sub("_", " ", clean_title)
         clean_title = re.sub(r"([\[\(_]|- )$", "", clean_title).strip()
-        
+
         return raw_title, clean_title
 
     def _late(self, name, clean):
@@ -110,12 +108,12 @@ class TorrentNameParser:
         self._reset_state()
         self.torrent = {"name": name}
         self.excess_raw = name
-        
+
         clean_name = re.sub("_", " ", self.torrent["name"])
 
         for key, pattern in PATTERNS.items():
             if key not in ("season", "episode", "website"):
-                pattern = fr"\b{pattern}\b"
+                pattern = rf"\b{pattern}\b"
 
             match = re.findall(pattern, clean_name, re.I)
             if len(match) == 0:
@@ -124,16 +122,16 @@ class TorrentNameParser:
             index = {}
             if isinstance(match[0], tuple):
                 match = list(match[0])
-                
+
             if len(match) > 1:
                 index["raw"] = 0
                 index["clean"] = 1
             else:
                 index["raw"] = 0
                 index["clean"] = 0
-            
+
             clean = self._cast_type(key, match[index["clean"]])
-                    
+
             if key == "group":
                 if re.search(PATTERNS["codec"], clean, re.I) or re.search(PATTERNS["quality"], clean):
                     continue  # Codec and quality.
@@ -144,7 +142,7 @@ class TorrentNameParser:
                 self.torrent["map"] = re.sub(
                     sub_pattern, "{episode}", self.torrent["name"]
                 )
-            
+
             # Add clean extraction to the output
             self.parts[key] = clean
             self._part(key, match, match[index["raw"]])
@@ -184,9 +182,8 @@ class TorrentNameParser:
 
         if not as_dict:
             return TorrentMetadata.from_dict(self.parts)
-        
+
         if ignore_none:
             self._ignore_none_values()
 
         return self.parts
-        
