@@ -1,10 +1,16 @@
+![PyPI - Python Version](https://img.shields.io/badge/python-3.9%20|%203.10%20|%203.11%20|%203.12%20|%203.13-blue)
+
 # torrent-name-parser
 
 > Extract media information from torrent-like filenames
 
-> **⚠️ README in progress:** README will stay empty until this project is in a working state and published on PyPI.
-
 This fork modernizes the original [Python port](https://github.com/divijbindlish/parse-torrent-name) by Divij Bindlish of [Jānis’ JavaScript library](https://github.com/jzjzjzj/parse-torrent-name).
+
+---
+
+## Usage
+
+> TBA
 
 ---
 

@@ -2,7 +2,7 @@ import json
 import os
 import unittest
 
-import torrent_name_parser
+from src.torrent_name_parser import TorrentNameParser
 from dataclasses import asdict
 
 class ParseTest(unittest.TestCase):
@@ -16,10 +16,11 @@ class ParseTest(unittest.TestCase):
             expected_results = json.load(output_file)
 
         self.assertEqual(len(torrents), len(expected_results))
-
+        parser = TorrentNameParser()
+        
         for torrent, expected_result in zip(torrents, expected_results):
             print("Test: " + torrent)
-            result = asdict(torrent_name_parser.parse(torrent))
+            result = asdict(parser.parse(torrent))
             for key in expected_result:
                 self.assertIn(key, result)
                 result1 = result[key]
