@@ -8,6 +8,8 @@ class TorrentMetadata:
     season: int = None
     episode: int = None
     year: int = None
+    month: int = None
+    day: int = None
 
     resolution: str = None
     quality: str = None

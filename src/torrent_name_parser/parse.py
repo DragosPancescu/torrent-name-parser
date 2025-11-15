@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import re
+import operator
+
 from dataclasses import asdict
+from functools import reduce
 
 from .patterns import PATTERNS, TYPES
 from .models import TorrentMetadata
@@ -60,6 +63,13 @@ class TorrentNameParser:
         elif self.title_end is None or index < self.title_end:
             self.title_end = index
 
+    def _match_patterns(self, patterns: list[str], name: str, flags: list = []):
+        for pattern in patterns:
+            match = re.findall(pattern, name, reduce(operator.or_, flags) if len(flags) > 0 else 0)
+            if len(match) > 0:
+                break
+        return match
+        
     def _part(self, name, match, raw):
         if len(match) != 0:
             self._update_title_bounds(match)
@@ -111,11 +121,11 @@ class TorrentNameParser:
 
         clean_name = re.sub("_", " ", self.torrent["name"])
 
-        for key, pattern in PATTERNS.items():
+        for key, patterns in PATTERNS.items():
             if key not in ("season", "episode", "website"):
-                pattern = rf"\b{pattern}\b"
+                patterns = [rf"\b{p}\b"for p in patterns]
 
-            match = re.findall(pattern, clean_name, re.I)
+            match = self._match_patterns(patterns, clean_name, flags=[re.I])
             if len(match) == 0:
                 continue
 
@@ -125,7 +135,7 @@ class TorrentNameParser:
 
             if len(match) > 1:
                 index["raw"] = 0
-                index["clean"] = 1
+                index["clean"] = len(match) - 1
             else:
                 index["raw"] = 0
                 index["clean"] = 0
@@ -133,7 +143,7 @@ class TorrentNameParser:
             clean = self._cast_type(key, match[index["clean"]])
 
             if key == "group":
-                if re.search(PATTERNS["codec"], clean, re.I) or re.search(PATTERNS["quality"], clean):
+                if len(self._match_patterns(PATTERNS["codec"], clean, flags=[re.I])) > 0 or len(self._match_patterns(PATTERNS["quality"], clean)) > 0:
                     continue  # Codec and quality.
                 if re.match(r"[^ ]+ [^ ]+ .+", clean):
                     key = "episodeName"
